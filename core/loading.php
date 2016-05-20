@@ -4,7 +4,7 @@
 use config\SettingConfig;
 
 //引入配置文件
-require_once 'config/SettingConfig.php';
+require_once 'config/SettingConfig.class.php';
 
 //设置引入路径
 set_include_path(SettingConfig::get("WORKDIR"));

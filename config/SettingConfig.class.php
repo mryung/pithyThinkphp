@@ -27,10 +27,15 @@ final class SettingConfig{
 	
 	private static  $URL_MODEL_PARAM = 's';								//定义到用controller方法的参数;
 	
-	private static $HOST_NAME        = '127.0.0.1';   					//主机名
+	private static $HOST_NAME        = 'localhost';   					//主机名
 	
 	private static $CONTROLLER 		 = array('Home','Admin','Api');       	//定义控制器类别
 	
+	private static $PORT			 = 8094;
+	
+	static         $SEESION_PREFIX	 = "test_";
+	
+	static         $PUBLIC_VIEW      ="layout.html";
 	
 	static public function get($name){
 		return self::$$name;

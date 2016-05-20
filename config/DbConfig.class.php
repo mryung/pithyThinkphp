@@ -9,7 +9,8 @@ final class DBConfig{
 	private static  $db_password = ''; 			//密码
 	private static  $db_host     = 'localhost'; 	//主机
 	private static  $db_port     = '3306'; 		//端口号
-	private static  $db_name     = 'framwork'; 	//数据库名
+	private static  $db_name     = 'privilege'; 	//数据库名
+	private static  $database_charset = 'utf8';
 	
 	
 	/**
@@ -17,8 +18,8 @@ final class DBConfig{
 	 * @param $name 取得的用户名
 	 */
 	
-	public function __get($name){
-		return self::$name;
+	public static function get($name){
+		return self::$$name;
 	}
 }
 

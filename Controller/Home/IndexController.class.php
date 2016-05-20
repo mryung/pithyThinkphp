@@ -1,9 +1,9 @@
 <?php
 namespace Home;
 
-use Controller\Controller;
+use Dao\UserDao;
 
-class IndexController extends Controller{
+class IndexController extends BasicController{
 	
 	public function __construct(){
 		parent::__construct();
@@ -11,8 +11,10 @@ class IndexController extends Controller{
 	
 	public function index(){
 		
-		$this->assign("yulang","haoe");
-		$this->display('ll');
+		$link = UserDao::connect();	
+		$user = UserDao::findUserById(1, $link);
+		$this->assign("yulang",$user);
+		$this->display();
 	}
 	
 }

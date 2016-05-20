@@ -1,0 +1,52 @@
+<!DOCTYPE>
+<html>
+<head>
+	<title>login</title>
+	<link href="{$public}/css/bootstrap/bootstrap.min.css"
+	rel="stylesheet" type="text/css">
+	<style>
+    	.container{
+    		margin-top: 200px;
+    	}
+    </style>
+</head>
+</head>
+<body>
+	<div class="container">
+		<div class="col-sm-offset-3 col-sm-6">
+			<div class="panel panel-default">
+				<h3 class="text-center">登录</h3>
+				<div class="panel-body">
+					<form action="test" class="form-horizontal login-form" methon="post">
+						<div class="form-group">
+							<label for="username" class="col-sm-2 control-lable">
+								username:
+							</label>
+							<div class=" col-sm-offset-3  col-sm-6 input-group">
+								<div class="input-group-addon"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></div>
+								<input  class="form-control" name="username" type="text" >
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-lable col-sm-2" for="password">password:</label>
+							<div class="col-sm-offset-3 col-sm-6 input-group">
+								<div class="input-group-addon"><span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span></div>
+								<input name="password" class="form-control" type="password"><br>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-sm-offset-4 col-sm-3">
+								<button type="submit" class="btn btn-primary btn-pill btn-block submit ajax-post" target-form="login-form">登录</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript"
+	src="{$public}/js/jquery/jquery-1.12.3.min.js"></script>
+<script type="text/javascript"
+	src="{$public}/js/boostrap/cui.js"></script>
+</html>

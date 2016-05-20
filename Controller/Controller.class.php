@@ -12,7 +12,7 @@ class Controller{
 	
 	public function __construct(){
 		$this->view = new \Smarty();
-		$this->view->template_dir = "public/html";
+		$this->view->template_dir = "view";
 		$this->view->compile_dir = "Runtime/html";
 	}
 	
@@ -33,26 +33,38 @@ class Controller{
 		
 		if(empty($tempName)){
 			
-			$backtrace = debug_backtrace();
-			array_shift($backtrace);
-			$tempfile = get_class($this).'\\'.$backtrace[0]['function'].'.html';
+			$tempfile = './'.CONTROLLER.'/'.METHOD.'.html';
 			
 		}else{  //传入了模板参数，就是用这个参数，建议传入模板参数，这有利于快速查找模板
 			
-			$tempfile = get_class($this).'\\'.$tempName;
+			$tempfile = './'.CONTROLLER.'/'.$tempName;
 		}
 		
+		//字符替换
 		$tempfile = str_replace("Controller", '', $tempfile);
+		$this->assign("public","/public");
+		$this->assign("layout",$tempfile);
+		
 		$this->view->assign($this->assin);
 		
-		$this->view->display($tempfile);
+		if(METHOD == "login"){
+			$this->view->display(MODEL."/".$tempfile);
+		}else{
+			$this->view->display(MODEL."/layout.html");
+		}
 	}
 
 	//ajaxReturn 方法 
 	public function ajaxReturn($data){
 		
 		
-// 		$this->view->
+	}
+	
+	public function redirect($url,$param=null){
+		
+		
+		//页面重定向		
+		header("Location: ?s=".$url);
 		
 	}
 }
