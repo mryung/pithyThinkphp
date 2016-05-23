@@ -56,8 +56,11 @@ class Controller{
 
 	//ajaxReturn 方法 
 	public function ajaxReturn($data){
-		
-		
+
+// 		exit($data);
+		header('Content-Type: application/json');
+		echo json_encode($data);
+		exit(0);
 	}
 	
 	public function redirect($url,$param=null){

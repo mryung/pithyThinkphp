@@ -2361,3 +2361,190 @@ if (typeof jQuery === 'undefined') {
   })
 
 }(jQuery);
+
+
+
+/* ========================================================================
+ * cui: ajax-get.js v0.0.1
+ * http://cui.corethink.cn/
+ * ========================================================================
+ * Copyright 2015-2020 Corethink, Inc.
+ * ======================================================================== */
+
+
++function ($) {
+    'use strict';
+
+    //ajax get请求
+    $(document).delegate('.ajax-get', 'click', function() {
+        var target;
+        var that = this;
+        if ($(this).hasClass('confirm')) {
+            if (!confirm('确认要执行该操作吗?')) {
+                return false;
+            }
+        }
+        if ((target = $(this).attr('href')) || (target = $(this).attr('url'))) {
+            $(this).addClass('disabled').attr('autocomplete', 'off').prop('disabled', true);
+            $.get(target).success(function(data) {
+                if (data.status == 1) {
+                    if (data.url && !$(that).hasClass('no-refresh')) {
+                        var message = data.info + ' 页面即将自动跳转~';
+                    } else {
+                        var message = data.info;
+                    }
+                    $.alertMessager(message, 'success');
+                    setTimeout(function() {
+                        $(that).removeClass('disabled').prop('disabled', false);
+                        if ($(that).hasClass('no-refresh')) {
+                            return false;
+                        }
+                        if (data.url && !$(that).hasClass('no-forward')) {
+                            location.href = data.url;
+                        } else {
+                            location.reload();
+                        }
+                    }, 2000);
+                } else {
+                    if (data.login == 1) {
+                        $('#login-modal').modal(); //弹出登陆框
+                    } else {
+                        $.alertMessager(data.info, 'danger');
+                    }
+                    setTimeout(function() {
+                        $(that).removeClass('disabled').prop('disabled', false);
+                    }, 2000);
+                }
+            });
+        }
+        return false;
+    });
+
+}(jQuery);
+
+/* ========================================================================
+ * cui: ajax-post.js v0.0.1
+ * http://cui.corethink.cn/
+ * ========================================================================
+ * Copyright 2015-2020 Corethink, Inc.
+ * ======================================================================== */
+
+
++function ($) {
+    'use strict';
+
+    //ajax post submit请求
+    $(document).delegate('.ajax-post', 'click', function() {
+        var target, query, form;
+        var target_form = $(this).attr('target-form'); //得到提交的表单名
+        var that = this;
+        var nead_confirm = false;
+
+        if (($(this).attr('type') == 'submit') || (target = $(this).attr('href')) || (target = $(this).attr('url'))) {
+            form = $('.' + target_form);  //得到表单素组
+            if ($(this).attr('hide-data') === 'true') { //无数据时也可以使用的功能
+                form = $('.hide-data');
+                query = form.serialize();
+            } else if (form.get(0) == undefined) {     //没有定义任何数据
+                return false;
+            } else if (form.get(0).nodeName == 'FORM') {  
+                if ($(this).hasClass('confirm')) {  //进行确认操作
+                    if (!confirm('确认要执行该操作吗?')) {
+                        return false;
+                    }
+                }
+                if ($(this).attr('url') !== undefined) {  //提交路径中更有url
+                    target = $(this).attr('url');
+                } else {
+                    target = form.get(0).action; //否者得到
+                }
+                query = form.serialize();    //表单序列化
+            } else if (form.get(0).nodeName == 'INPUT' || form.get(0).nodeName == 'SELECT' || form.get(0).nodeName == 'TEXTAREA') {
+                form.each(function(k, v) {
+                    if (v.type == 'checkbox' && v.checked == true) {
+                        nead_confirm = true;
+                    }
+                });
+                if (nead_confirm && $(this).hasClass('confirm')) {
+                    if (!confirm('确认要执行该操作吗?')) {
+                        return false;
+                    }
+                }
+                query = form.serialize();
+            } else {
+                if ($(this).hasClass('confirm')) {
+                    if (!confirm('确认要执行该操作吗?')) {
+                        return false;
+                    }
+                }
+                query = form.find('input,select,textarea').serialize();
+            }
+
+            $(that).addClass('disabled').attr('autocomplete', 'off').prop('disabled', true);
+            $.post(target, query).success(function(data) {
+                if (data.status == 1) {
+                    if (data.url && !$(that).hasClass('no-refresh')) {
+                        var message = data.info + ' 页面即将自动跳转~';
+                    } else {
+                        var message = data.info;
+                    }
+                    $.alertMessager(message, 'success');
+                    setTimeout(function() {
+                        if ($(that).hasClass('no-refresh')) {
+                            return false;
+                        }
+                        if (data.url && !$(that).hasClass('no-forward')) {
+                            location.href = data.url;
+                        } else {
+                            location.reload();
+                        }
+                    }, 2000);
+                } else {
+                    $.alertMessager(data.info, 'danger');
+                    setTimeout(function() {
+                        $(that).removeClass('disabled').prop('disabled', false);
+                    }, 2000);
+                    if($('.reload-verify').length > 0){
+                        $('.reload-verify').click();
+                    }
+                }
+            });
+        }
+        return false;
+    });
+
+}(jQuery);
+
+/* ========================================================================
+ * cui: ajax-get.js v0.0.1
+ * http://cui.corethink.cn/
+ * ========================================================================
+ * Copyright 2015-2020 Corethink, Inc.
+ * ======================================================================== */
+
+
++function ($) {
+    'use strict';
+
+    //jQuery弹窗提醒插件
+    $.alertMessager = function(message, type, time) {
+        type = type ? type : 'danger';
+        var messager = '<div class="container growl" style="display:none;position: fixed;z-index: 1090;top:-100px;left: 0;right:0;">'
+                          +'<div class="col-sm-4 col-sm-offset-4" >'
+                            +'<div class="alert alert-full alert-'+type+' alert-dismissible" role="alert">'
+                                +'<button type="button" class="close" data-dismiss="alert" aria-label="Close">'
+                                	+'<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>'
+                                +'</button>'
+                                +message
+                            +'</div>'
+                          +'</div>'
+                       +'</div>';
+        $('.growl').remove();
+        $('body').prepend(messager);
+        $('.growl').fadeIn();
+         setTimeout(function(){
+            $('.growl').remove();
+         }, time ? time : 2000);
+    };
+
+}(jQuery);
