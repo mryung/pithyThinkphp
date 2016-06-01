@@ -1,0 +1,234 @@
+等于			key:value
+小于			key:{$lt:value}
+小于或等于	key:{$lte:value}
+大于			key:{$gt:value}
+大于等于		key:{$gte:value}
+不等于		key:{$ne:value}
+./configure \
+--prefix=/home/prod/bin/nginx-1.10.0 \
+--error-log-path=/home/prod/data/nginx/error.log \
+--http-log-path=/home/prod/data/nginx/access.log \
+--pid-path=/home/prod/bin/nginx.pid \
+--lock-path=/home/prod/bin/nginx.lock \
+--http-client-body-temp-path=/home/prod/tmp/nginx/client_temp \
+--http-proxy-temp-path=/home/prod/tmp/nginx/proxy_temp \
+--http-fastcgi-temp-path=/home/prod/tmp/nginx/fastcgi_temp \
+--http-uwsgi-temp-path=/home/prod/tmp/nginx/uwsgi_temp \
+--http-scgi-temp-path=/home/prod/tmp/nginx/scgi_temp \
+--user=prod \
+--group=prod \
+--with-http_ssl_module \
+--with-http_realip_module \
+--with-http_addition_module \
+--with-http_sub_module \
+--with-http_dav_module \
+--with-http_flv_module \
+--with-http_mp4_module \
+--with-http_gunzip_module \
+--with-http_gzip_static_module \
+--with-http_random_index_module \
+--with-http_secure_link_module \
+--with-http_stub_status_module \
+--with-http_auth_request_module \
+--with-threads \
+--with-stream \
+--with-stream_ssl_module \
+--with-http_slice_module \
+--with-mail \
+--with-mail_ssl_module \
+--with-file-aio \
+--with-http_v2_module \
+--with-ipv6 \
+--with-pcre=/home/prod/src/pcre-8.38 \
+--with-zlib=/home/prod/src/zlib-1.2.8 \
+--with-openssl=/home/prod/src/openssl-1.0.1t
+
+
+./configure \
+--prefix=/home/prod/bin/php-5.6.21 \
+--enable-fpm \
+--with-fpm-user=prod \
+--with-fpm-group==prod \
+-with-mysql=/home/prod/bin/mysql \
+--with-mysql-sock=/home/prod/tmp/mysql.sock \
+--with-libxml-dir=/home/prod/local/libxml \
+--with-openssl=/home/prod/local/openssl \
+--with-zlib=/home/prod/local/zlib \
+
+
+config = {_id: 'yulang', members: [{
+	"_id":1,
+	"host":"192.168.223.140:10000"
+	},{
+	"_id":2,
+	"192.168.223.140:10001"
+	},{
+	"_id":3,
+	"192.168.223.140:10002"
+	}]
+}
+db.people.update(
+    { item: "MNO2" },
+    {
+      $set: {
+        category: "apparel",
+        details: { model: "14Q3", manufacturer: "XYZ Company" }
+      },
+      $currentDate: { lastModified: true }
+    }
+)
+db.test.update(
+   { _id: 1 },
+   {
+     $push: {
+        scores: {
+           $each: [ { attempt: 3, score: 7 }, { attempt: 4, score: 4 } ],
+           $sort: { score: 1 },
+           $slice: -3
+        }
+     }
+   }
+)
+
+db.inventory.insert([
+{ "_id" : 1, "item" : "f1", type: "food", quantity: 500 },
+{ "_id" : 2, "item" : "f2", type: "food", quantity: 100 },
+{ "_id" : 3, "item" : "p1", type: "paper", quantity: 200 },
+{ "_id" : 4, "item" : "p2", type: "paper", quantity: 150 },
+{ "_id" : 5, "item" : "f3", type: "food", quantity: 300 },
+{ "_id" : 6, "item" : "t1", type: "toys", quantity: 500 },
+{ "_id" : 7, "item" : "a1", type: "apparel", quantity: 250 },
+{ "_id" : 8, "item" : "a2", type: "apparel", quantity: 400 },
+{ "_id" : 9, "item" : "t2", type: "toys", quantity: 50 },
+{ "_id" : 10, "item" : "f4", type: "food", quantity: 75}
+])
+var condition = [
+{ "_id" : 1, "item" : "f1", type: "food", quantity: 500 },
+{ "_id" : 2, "item" : "f2", type: "food", quantity: 100 },
+{ "_id" : 3, "item" : "p1", type: "paper", quantity: 200 },
+{ "_id" : 4, "item" : "p2", type: "paper", quantity: 150 },
+{ "_id" : 5, "item" : "f3", type: "food", quantity: 300 },
+{ "_id" : 6, "item" : "t1", type: "toys", quantity: 500 },
+{ "_id" : 7, "item" : "a1", type: "apparel", quantity: 250 },
+{ "_id" : 8, "item" : "a2", type: "apparel", quantity: 400 },
+{ "_id" : 9, "item" : "t2", type: "toys", quantity: 50 },
+{ "_id" : 10, "item" : "f4", type: "food", quantity: 75
+]
+
+db.stores.insert(
+   [
+     { _id: 1, name: "Java Hut", description: "小明 小米 and cakes" },
+     { _id: 2, name: "Burger Buns", description: "小明 hamburgers" },
+     { _id: 3, name: "Coffee Shop", description: "小米 coffee" },
+     { _id: 4, name: "Clothes Clothes Clothes", description: "Discount clothing" },
+     { _id: 5, name: "Java Shopping", description: "Indonesian goods" }
+   ]
+)
+
+
+
+文本索引
+
+
+mongodb存储引擎
+journal 适合mongoDB数据恢复，有很对配置允许平衡性能和稳定
+gridfs 适合处理大的文件超过16MB的文档限制
+
+wiredTiger Storage Engine:
+在3.2后 他是默认的存储引擎
+文档水平并发
+
+mongodb 中是Aggregation特性
+统计、分析、分类等需求
+
+db.collection.aggregate({
+  {"$match": {"status": 0}},
+  {"$group": {"_id":"$zipcode","total":{"$sum":"$amount"}}},
+  {"$sort":{"total": 1}},
+  {"$out": "_group_"}
+})
+
+mongodb 提供了三个单一用途的aggregation
+
+1、count： 计算总和 db.collection.count();
+
+
+
+$project：数据投影，主要用于重命名、增加和删除字段
+db.collection.aggregate({
+  "$project": {
+    "title":1,
+    "author":1，
+    "age_name":{"$add":["$age",10]} 把原来的$age字段添加10后复制给age)anme,然后显示出来
+  }
+})
+相当于 select  列名,列名 from table_name
+1 表示显示
+0 表示不显示
+$project 还可以用来重命名
+
+db.collection.aggregate{
+  "$project":{
+    "age_name": "$age",   注：把age字段名改为age_name
+  }
+}
+
+
+$match: 过滤操作，筛选复合条件的文档，作为下一阶段的输入
+$match 的语法和插叙天道式的语法相同
+db.user.aggregate({
+  "$match":{
+    'age':{
+      $gt:10,$lte:100
+    }
+  }
+})
+
+
+db.user.aggregate([{
+  "$match":{
+    'age':{
+      $gt:10,$lte:100
+    }
+  }
+},{"$project":{
+  age:1
+}}])
+
+注意，
+1、在$match 中不能使用 $where表达式操作符
+2、$match尽量出现在管道的前面，这样可以提早过滤文档，加快聚合速度
+3、$match 出现在最前面的话，可以使用索引来加快查询
+
+
+$limite 限制经过管道的文档数量
+$limite 参数只能是整数
+db.user.aggregate{
+  {$limite:2}
+}
+
+
+
+$skip: 从待操作的集合开始的位置跳过文档的数目
+skip 也只能为整数
+
+$unwind: 将数组元素拆分成独立字段
+db.user.aggregate([{"$skip":5},{$unwind:"$name"}])
+注意：
+a. {$unwind:"$name"} 不要忘记$符号
+b. 如果$unwind 目标字段不出在的话，那么该文档将被忽略滤掉
+c. 如果$unwind 目标字段不是一个数组的话，将会产生错误
+d. 如果目标字段数组为空的话，该文档也将会被忽略
+
+
+$group 对数据进行分组，不许要指定一个_id域，同事也要包含一些算术类型
+的表达式操作符
+
+注意：$group 输出是无须的
+    $group 操作目前是在内存中进行的，所以不能用他来对打两个数的文档进行分组
+
+
+$sort： 对文档安装指定的字段顺序排序
+
+
+$goNear 会返回一些坐标值，这些值安装指定距离由近到远排序
